@@ -182,7 +182,7 @@ class UploadImageService
         
         // Create directory if it doesn't exist
         if (!is_dir($savePath)) {
-            mkdir($savePath, 0777, true);
+            mkdir($savePath, 0755, true);
         }
         
         // Save the image
@@ -200,9 +200,19 @@ class UploadImageService
         }
         
         // Return URL path (relative to web root)
+        // Since tmpDir is configured as public/uploads/tmp, extract the path after 'public'
         $projectDir = $this->params->get('kernel.project_dir');
         $publicDir = $projectDir . '/public';
-        $urlPath = str_replace($publicDir, '', $fullPath);
+        
+        if (strpos($fullPath, $publicDir) === 0) {
+            // File is under public directory - return path relative to web root
+            $urlPath = str_replace($publicDir, '', $fullPath);
+        } else {
+            // Fallback: assume the tmpDir parameter is correctly configured under public
+            // Extract path after the tmpDir base
+            $tmpDirBase = $this->params->get('app.image.upload.tmp_dir');
+            $urlPath = str_replace($projectDir . '/public', '', $fullPath);
+        }
         
         return $urlPath;
     }
