@@ -1,0 +1,11 @@
+{
+    "require": {
+        "symfony/framework-bundle": "^7.4",
+        "symfony/http-foundation": "^7.4",
+        "symfony/routing": "^7.4",
+        "symfony/yaml": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/config": "^7.4",
+        "intervention/image": "^3.11"
+    }
+}
